@@ -1,0 +1,370 @@
+/* Базові стилі для мінігри «Полювання на зайве “й”» */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+  color: #f5f5f5;
+  background: transparent;
+  overflow-x: hidden;
+}
+
+/* Службовий клас для приховання елементів */
+.hidden {
+  display: none !important;
+}
+
+/* Фон із зображенням та легким переміщенням */
+#background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background-image: url('./background.png');
+  background-size: cover;
+  background-position: center;
+  /* Темніша на 40%, щоб текст було добре видно */
+  filter: brightness(0.6);
+  animation: bgShift 35s linear infinite alternate;
+}
+
+@keyframes bgShift {
+  from {
+    background-position: 50% 0%;
+  }
+  to {
+    background-position: 50% 100%;
+  }
+}
+
+/* Зірковий шар */
+#star-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+  animation: twinkle 2s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.5);
+  }
+}
+
+/* Перекриття для стартового та фінального екранів */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 5;
+}
+
+/* Стилі для вмісту стартового та фінального екранів */
+.start-content,
+.finish-content {
+  max-width: 550px;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.start-content img,
+.finish-content img {
+  width: 130px;
+  height: auto;
+}
+
+.start-content h1 {
+  font-size: 1.6rem;
+  margin: 0;
+  color: #ffd27f;
+}
+
+.start-content p {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #f5e6c6;
+  margin: 0;
+}
+
+.start-content button {
+  padding: 0.8rem 1.6rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  background: linear-gradient(90deg, #f7c84d 0%, #a47c4a 100%);
+  color: #1e1e1e;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.start-content button:hover {
+  transform: scale(1.05);
+}
+
+/* Основний ігровий контейнер */
+#game-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1rem;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+#game-container .header h2 {
+  margin: 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffd27f;
+}
+
+.instructions {
+  font-size: 1rem;
+  color: #f5e6c6;
+  margin: 0 0 1rem;
+  max-width: 600px;
+  text-align: center;
+}
+
+/* Панель зі життями, таймером та очками */
+.scoreboard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 550px;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.lives {
+  display: flex;
+  gap: 0.25rem;
+  font-size: 1.4rem;
+  color: #e57373;
+}
+
+.timer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#time-bar {
+  width: 100%;
+  height: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+#time-fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #f7c84d 0%, #a47c4a 100%);
+  border-radius: 0.25rem;
+  transition: width 0.2s linear;
+}
+
+#time-label {
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+  color: #f5e6c6;
+}
+
+.score {
+  font-size: 1rem;
+  color: #f5e6c6;
+}
+
+/* Відображення слова */
+#word-display {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 2rem 0 1rem;
+  text-align: center;
+  color: #ffd27f;
+  text-shadow: 0 0 6px rgba(255, 222, 100, 0.8);
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Кнопка заклинання */
+#spell-btn {
+  padding: 0.9rem 1.8rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.6rem;
+  background: linear-gradient(90deg, #70d1b4 0%, #2fa87e 100%);
+  color: #1e1e1e;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s ease;
+}
+
+#spell-btn:hover {
+  transform: scale(1.05);
+}
+
+#spell-btn:active {
+  transform: scale(0.98);
+}
+
+/* Пояснення після кліку */
+#explanation {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #f5e6c6;
+  max-width: 600px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Стилі для фінального екрана */
+.finish-content h2 {
+  font-size: 1.6rem;
+  color: #ffd27f;
+  margin: 0;
+}
+
+.finish-content p {
+  font-size: 1rem;
+  color: #f5e6c6;
+  line-height: 1.4;
+  margin: 0.5rem 0 1rem;
+}
+
+.finish-content .cta-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  align-items: center;
+}
+
+.finish-content .cta-buttons a {
+  padding: 0.7rem 1.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  color: #1e1e1e;
+  background: linear-gradient(90deg, #f7c84d 0%, #a47c4a 100%);
+  text-decoration: none;
+  display: inline-block;
+  transition: transform 0.1s ease;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+}
+
+.finish-content .cta-buttons a:hover {
+  transform: scale(1.05);
+}
+
+/* Загальний прогрес-бар на фінальному екрані */
+.general-progress {
+  width: 100%;
+  max-width: 400px;
+  margin: 0.5rem 0 1rem;
+}
+
+.general-progress-bar {
+  width: 100%;
+  height: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 0.4rem;
+  overflow: hidden;
+}
+
+.general-progress-fill {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #f7c84d 0%, #a47c4a 100%);
+  border-radius: 0.4rem;
+  transition: width 0.3s ease;
+}
+
+.general-progress-text {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: #f5e6c6;
+  text-align: center;
+}
+
+/* Адаптація для мобільних пристроїв */
+@media (max-width: 600px) {
+  .start-content,
+  .finish-content {
+    padding: 1.5rem 1rem;
+  }
+  #game-container .header h2 {
+    font-size: 1.3rem;
+  }
+  #word-display {
+    font-size: 1.6rem;
+    margin: 1.5rem 0 0.8rem;
+  }
+  #spell-btn {
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+  }
+  .scoreboard {
+    flex-direction: column;
+    align-items: center;
+  }
+  .scoreboard > * {
+    margin-top: 0.3rem;
+  }
+  .lives {
+    font-size: 1.2rem;
+  }
+}
